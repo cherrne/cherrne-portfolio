@@ -1,22 +1,43 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" id="top">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Cherrne 的设计作品集">
   <title>Cherrne — Portfolio</title>
+  <link rel="preload" as="image" href="cover.jpg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <a class="cover" href="portfolio.pdf" target="_blank" rel="noopener" aria-label="打开完整作品集 PDF">
-      <img src="cover.jpg" alt="Cherrne 设计作品集封面">
-      <span>打开完整作品集</span>
-    </a>
-  </main>
-  <footer>
+  <header>
     <p>Cherrne · Portfolio</p>
     <a href="portfolio.pdf" download>下载 PDF</a>
+  </header>
+  <main>
+    <div class="cover-row">
+      <img class="hero" src="cover.jpg" alt="Cherrne 设计作品集封面" width="2200" height="1238" fetchpriority="high">
+      <a class="enter" href="#portfolio" aria-label="打开完整作品集">
+        <img src="arrow.png" alt="" width="257" height="183">
+      </a>
+    </div>
+    <section class="pages" id="portfolio" aria-label="作品集内容">
+      <img src="pages/page-01.webp" alt="作品集第 1 页" width="1400" height="1731" loading="lazy" decoding="async">
+      <img src="pages/page-02.webp" alt="作品集第 2 页" width="1400" height="11755" loading="lazy" decoding="async">
+      <img src="pages/page-03.webp" alt="作品集第 3 页" width="1400" height="9047" loading="lazy" decoding="async">
+      <img src="pages/page-04.webp" alt="作品集第 4 页" width="1400" height="7942" loading="lazy" decoding="async">
+      <img src="pages/page-05.webp" alt="作品集第 5 页" width="1400" height="3985" loading="lazy" decoding="async">
+      <img src="pages/page-06.webp" alt="作品集第 6 页" width="1400" height="3937" loading="lazy" decoding="async">
+      <img src="pages/page-07.webp" alt="作品集第 7 页" width="1400" height="4723" loading="lazy" decoding="async">
+      <img src="pages/page-08.webp" alt="作品集第 8 页" width="1400" height="3932" loading="lazy" decoding="async">
+      <img src="pages/page-09.webp" alt="作品集第 9 页" width="1400" height="4107" loading="lazy" decoding="async">
+      <img src="pages/page-10.webp" alt="作品集第 10 页" width="1400" height="4895" loading="lazy" decoding="async">
+      <img src="pages/page-11.webp" alt="作品集第 11 页" width="1400" height="5375" loading="lazy" decoding="async">
+      <img src="pages/page-12.webp" alt="作品集第 12 页" width="1400" height="4720" loading="lazy" decoding="async">
+    </section>
+  </main>
+  <footer>
+    <p>End · Thank you</p>
+    <a href="#top">回到顶部</a>
   </footer>
 </body>
 </html>
