@@ -32,9 +32,20 @@ footer p { margin: 0; }
 header a,
 footer a { color: inherit; text-underline-offset: 4px; }
 
-main {
+.viewer-main {
   width: min(100%, 1180px);
   margin: 0 auto;
+  padding: 22px;
+}
+
+.cover-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.cover-main {
+  width: min(100%, 1380px);
   padding: 22px;
 }
 
@@ -49,10 +60,9 @@ main {
 
 .cover-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 112px;
+  grid-template-columns: minmax(0, 1fr) 56px;
   align-items: center;
   gap: 18px;
-  margin-bottom: 22px;
 }
 
 .enter {
@@ -67,17 +77,16 @@ main {
   display: block;
   width: 100%;
   height: auto;
+  opacity: .8;
   animation: arrow-glow 1.8s ease-in-out infinite;
 }
 
 @keyframes arrow-glow {
   0%, 100% {
-    opacity: .72;
     filter: drop-shadow(0 0 2px rgb(101 75 224 / 24%));
     transform: rotate(var(--arrow-rotation)) translateX(0) scale(.97);
   }
   50% {
-    opacity: 1;
     filter: drop-shadow(0 0 13px rgb(101 75 224 / 72%));
     transform: rotate(var(--arrow-rotation)) translateX(4px) scale(1.02);
   }
@@ -92,7 +101,8 @@ main {
 @media (max-width: 600px) {
   header,
   footer { padding: 13px 14px; }
-  main { padding: 8px; }
+  .cover-main,
+  .viewer-main { padding: 8px; }
   .cover-row {
     grid-template-columns: 1fr;
     gap: 6px;
@@ -100,8 +110,8 @@ main {
   }
   .enter {
     --arrow-rotation: 90deg;
-    width: 92px;
-    margin: 16px 0 20px;
+    width: 46px;
+    margin: 10px 0 14px;
     justify-self: center;
   }
   .pages { gap: 8px; }
