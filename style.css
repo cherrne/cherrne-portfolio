@@ -40,13 +40,15 @@ footer a { color: inherit; text-underline-offset: 4px; }
 
 .cover-page {
   min-height: 100vh;
+  min-height: 100svh;
   display: grid;
   place-items: center;
 }
 
 .cover-main {
-  width: min(100%, 1380px);
-  padding: 22px;
+  width: min(88vw, 1440px);
+  margin: auto;
+  padding: clamp(16px, 2vw, 30px);
 }
 
 .hero,
@@ -60,9 +62,9 @@ footer a { color: inherit; text-underline-offset: 4px; }
 
 .cover-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 56px;
+  grid-template-columns: minmax(0, 1fr) 82px;
   align-items: center;
-  gap: 18px;
+  gap: clamp(18px, 2.5vw, 44px);
 }
 
 .enter {
@@ -103,6 +105,7 @@ footer a { color: inherit; text-underline-offset: 4px; }
   footer { padding: 13px 14px; }
   .cover-main,
   .viewer-main { padding: 8px; }
+  .cover-main { width: min(94vw, 720px); }
   .cover-row {
     grid-template-columns: 1fr;
     gap: 6px;
@@ -110,7 +113,7 @@ footer a { color: inherit; text-underline-offset: 4px; }
   }
   .enter {
     --arrow-rotation: 90deg;
-    width: 46px;
+    width: 48px;
     margin: 10px 0 14px;
     justify-self: center;
   }
