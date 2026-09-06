@@ -62,59 +62,35 @@ footer a { color: inherit; text-underline-offset: 4px; }
 
 .cover-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 64px;
+  grid-template-columns: minmax(0, 1fr) 54px;
   align-items: center;
   gap: clamp(18px, 2.5vw, 44px);
 }
 
 .enter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  width: 64px;
-  height: 36px;
-  border: 1px solid rgb(255 255 255 / 70%);
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 18% 90%, rgb(255 244 224 / 75%), transparent 42%),
-    linear-gradient(180deg, #d9c0ff 0%, #8373ff 48%, #ad8ff1 100%);
-  box-shadow:
-    inset 0 1px 8px rgb(255 255 255 / 75%),
-    inset 0 -2px 5px rgb(92 67 210 / 32%),
-    0 0 12px rgb(139 112 255 / 48%);
-  opacity: .8;
+  --arrow-rotation: 0deg;
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 54px;
   outline-offset: 4px;
-  text-decoration: none;
-  animation: button-glow 1.8s ease-in-out infinite;
+  animation: metal-glow 1.9s ease-in-out infinite;
 }
 
-.enter::before {
-  content: "✦";
-  color: #fff;
-  font-size: 11px;
-  line-height: 1;
-  text-shadow: 0 0 6px #fff;
+.enter img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.enter::after {
-  content: "→";
-  color: #fff;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1;
-  transform: translateY(-1px);
-  text-shadow: 0 0 7px rgb(255 255 255 / 90%);
-}
-
-@keyframes button-glow {
+@keyframes metal-glow {
   0%, 100% {
-    filter: brightness(.96);
-    transform: translateX(0) scale(.98);
+    filter: brightness(.94) drop-shadow(0 0 3px rgb(181 193 204 / 44%));
+    transform: rotate(var(--arrow-rotation)) translateX(0) scale(.98);
   }
   50% {
-    filter: brightness(1.1);
-    transform: translateX(3px) scale(1.02);
+    filter: brightness(1.08) drop-shadow(0 0 11px rgb(225 235 244 / 90%));
+    transform: rotate(var(--arrow-rotation)) translateX(3px) scale(1.02);
   }
 }
 
@@ -136,14 +112,10 @@ footer a { color: inherit; text-underline-offset: 4px; }
     margin-bottom: 8px;
   }
   .enter {
-    width: 56px;
-    height: 32px;
+    --arrow-rotation: 90deg;
+    width: 42px;
     margin: 10px 0 14px;
     justify-self: center;
-  }
-  .enter::after {
-    content: "↓";
-    font-size: 18px;
   }
   .pages { gap: 8px; }
   .hero,
