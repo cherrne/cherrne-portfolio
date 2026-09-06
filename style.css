@@ -62,35 +62,59 @@ footer a { color: inherit; text-underline-offset: 4px; }
 
 .cover-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 82px;
+  grid-template-columns: minmax(0, 1fr) 64px;
   align-items: center;
   gap: clamp(18px, 2.5vw, 44px);
 }
 
 .enter {
-  --arrow-rotation: 0deg;
-  display: grid;
-  place-items: center;
-  border-radius: 18px;
-  outline-offset: 5px;
-}
-
-.enter img {
-  display: block;
-  width: 100%;
-  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 64px;
+  height: 36px;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 18% 90%, rgb(255 244 224 / 75%), transparent 42%),
+    linear-gradient(180deg, #d9c0ff 0%, #8373ff 48%, #ad8ff1 100%);
+  box-shadow:
+    inset 0 1px 8px rgb(255 255 255 / 75%),
+    inset 0 -2px 5px rgb(92 67 210 / 32%),
+    0 0 12px rgb(139 112 255 / 48%);
   opacity: .8;
-  animation: arrow-glow 1.8s ease-in-out infinite;
+  outline-offset: 4px;
+  text-decoration: none;
+  animation: button-glow 1.8s ease-in-out infinite;
 }
 
-@keyframes arrow-glow {
+.enter::before {
+  content: "✦";
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  text-shadow: 0 0 6px #fff;
+}
+
+.enter::after {
+  content: "→";
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  transform: translateY(-1px);
+  text-shadow: 0 0 7px rgb(255 255 255 / 90%);
+}
+
+@keyframes button-glow {
   0%, 100% {
-    filter: drop-shadow(0 0 2px rgb(101 75 224 / 24%));
-    transform: rotate(var(--arrow-rotation)) translateX(0) scale(.97);
+    filter: brightness(.96);
+    transform: translateX(0) scale(.98);
   }
   50% {
-    filter: drop-shadow(0 0 13px rgb(101 75 224 / 72%));
-    transform: rotate(var(--arrow-rotation)) translateX(4px) scale(1.02);
+    filter: brightness(1.1);
+    transform: translateX(3px) scale(1.02);
   }
 }
 
@@ -112,10 +136,14 @@ footer a { color: inherit; text-underline-offset: 4px; }
     margin-bottom: 8px;
   }
   .enter {
-    --arrow-rotation: 90deg;
-    width: 48px;
+    width: 56px;
+    height: 32px;
     margin: 10px 0 14px;
     justify-self: center;
+  }
+  .enter::after {
+    content: "↓";
+    font-size: 18px;
   }
   .pages { gap: 8px; }
   .hero,
@@ -124,4 +152,5 @@ footer a { color: inherit; text-underline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .enter { animation: none; }
 }
