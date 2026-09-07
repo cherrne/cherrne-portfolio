@@ -8,6 +8,17 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; min-height: 100vh; }
+body.preview-open {
+  overflow: hidden;
+}
+
+body.preview-open header,
+body.preview-open .viewer-main,
+body.preview-open footer {
+  filter: blur(7px);
+  pointer-events: none;
+  user-select: none;
+}
 
 header,
 footer {
@@ -52,7 +63,8 @@ footer a { color: inherit; text-underline-offset: 4px; }
 }
 
 .hero,
-.pages img {
+.pages > img,
+.interactive-page > img:not(.hotspot-guide) {
   display: block;
   width: 100%;
   height: auto;
@@ -100,6 +112,154 @@ footer a { color: inherit; text-underline-offset: 4px; }
   scroll-margin-top: 64px;
 }
 
+.interactive-page {
+  position: relative;
+}
+
+.preview-hotspot {
+  position: absolute;
+  left: 8.1%;
+  top: 5.9%;
+  width: 83.8%;
+  height: 11.7%;
+  z-index: 3;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.preview-hotspot:focus-visible {
+  outline: 2px solid rgb(255 76 211 / 78%);
+  outline-offset: 4px;
+}
+
+.hotspot-guide {
+  position: absolute;
+  right: 11%;
+  top: 14.8%;
+  z-index: 4;
+  width: clamp(38px, 6.4vw, 82px);
+  height: auto;
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 6px 12px rgb(0 0 0 / 24%));
+  transform: translate(28px, 28px) rotate(225deg) scale(.92);
+}
+
+.interactive-page.is-readable .hotspot-guide {
+  animation: guide-tap 1.8s ease-in-out infinite;
+}
+
+@keyframes guide-tap {
+  0% {
+    opacity: 0;
+    transform: translate(34px, 34px) rotate(225deg) scale(.9);
+  }
+  18%, 62% {
+    opacity: 1;
+  }
+  42% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(225deg) scale(1);
+  }
+  58% {
+    opacity: 1;
+    transform: translate(-7px, -7px) rotate(225deg) scale(.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(34px, 34px) rotate(225deg) scale(.9);
+  }
+}
+
+.site-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4vw, 48px);
+  background: rgb(245 245 245 / 54%);
+}
+
+.site-preview[hidden] {
+  display: none;
+}
+
+.preview-frame-wrap {
+  position: relative;
+  width: min(1120px, 100%);
+  height: min(760px, 84vh);
+  border: 1px solid rgb(0 0 0 / 14%);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 22px 80px rgb(0 0 0 / 30%);
+  overflow: hidden;
+}
+
+.site-preview iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.site-preview iframe[hidden] {
+  display: none;
+}
+
+.preview-message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 24px;
+  color: #333;
+  font-family: SimHei, "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: clamp(18px, 3.2vw, 28px);
+  font-weight: 700;
+  text-align: center;
+}
+
+.preview-close {
+  position: fixed;
+  top: clamp(16px, 3vw, 34px);
+  left: clamp(16px, 3vw, 34px);
+  z-index: 31;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgb(0 0 0 / 14%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 86%);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 14%);
+  cursor: pointer;
+}
+
+.preview-close::before,
+.preview-close::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 8px;
+  width: 14px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: #111;
+}
+
+.preview-close::before {
+  transform: rotate(45deg);
+}
+
+.preview-close::after {
+  transform: rotate(-45deg);
+}
+
 @media (max-width: 600px) {
   header,
   footer { padding: 13px 14px; }
@@ -119,10 +279,22 @@ footer a { color: inherit; text-underline-offset: 4px; }
   }
   .pages { gap: 8px; }
   .hero,
-  .pages img { box-shadow: 0 5px 16px rgb(0 0 0 / 14%); }
+  .pages > img,
+  .interactive-page > img:not(.hotspot-guide) { box-shadow: 0 5px 16px rgb(0 0 0 / 14%); }
+  .site-preview { padding: 52px 10px 12px; }
+  .preview-frame-wrap {
+    width: 100%;
+    height: calc(100vh - 72px);
+    height: calc(100svh - 72px);
+  }
+  .preview-close {
+    top: 12px;
+    left: 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .enter { animation: none; }
+  .enter,
+  .interactive-page.is-readable .hotspot-guide { animation: none; }
 }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Cherrne 的完整设计作品集">
   <title>Cherrne — Portfolio Viewer</title>
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body class="viewer-page">
   <header>
@@ -24,13 +24,96 @@
       <img src="pages/page-08.webp" alt="作品集第 8 页" width="1400" height="3932" loading="lazy" decoding="async">
       <img src="pages/page-09.webp" alt="作品集第 9 页" width="1400" height="4107" loading="lazy" decoding="async">
       <img src="pages/page-10.webp" alt="作品集第 10 页" width="1400" height="4895" loading="lazy" decoding="async">
-      <img src="pages/page-11.webp" alt="作品集第 11 页" width="1400" height="5375" loading="lazy" decoding="async">
+      <div class="interactive-page" data-preview-page>
+        <img src="pages/page-11.webp" alt="作品集第 11 页" width="1400" height="5375" loading="lazy" decoding="async">
+        <button class="preview-hotspot" type="button" aria-label="预览 Today's Draw 网站"></button>
+        <img class="hotspot-guide" src="metal-arrow.webp" alt="" width="320" height="291" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
       <img src="pages/page-12.webp" alt="作品集第 12 页" width="1400" height="4720" loading="lazy" decoding="async">
     </section>
   </main>
+  <div class="site-preview" role="dialog" aria-modal="true" aria-label="Today's Draw 网站预览" hidden>
+    <button class="preview-close" type="button" aria-label="关闭预览"></button>
+    <div class="preview-frame-wrap">
+      <p class="preview-message" role="status" aria-live="polite"></p>
+      <iframe title="Today's Draw 网站预览" src="about:blank" data-src="https://today-yidesui.stony-skink-3552.chatgpt.site" loading="lazy"></iframe>
+    </div>
+  </div>
   <footer>
     <p>End · Thank you</p>
     <a href="#top">回到顶部</a>
   </footer>
+  <script>
+    const body = document.body;
+    const page = document.querySelector("[data-preview-page]");
+    const hotspot = document.querySelector(".preview-hotspot");
+    const modal = document.querySelector(".site-preview");
+    const closeButton = document.querySelector(".preview-close");
+    const frame = modal.querySelector("iframe");
+    const message = modal.querySelector(".preview-message");
+    let lastFocus = null;
+    let checkId = 0;
+
+    async function openPreview() {
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      body.classList.add("preview-open");
+      closeButton.focus();
+      message.textContent = "";
+      frame.hidden = true;
+      const currentCheck = ++checkId;
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 4500);
+
+      try {
+        await fetch(frame.dataset.src, {
+          method: "HEAD",
+          mode: "no-cors",
+          cache: "no-store",
+          signal: controller.signal
+        });
+        if (currentCheck !== checkId) return;
+        if (frame.src === "about:blank") {
+          frame.src = frame.dataset.src;
+        }
+        frame.hidden = false;
+      } catch (error) {
+        if (currentCheck !== checkId) return;
+        message.textContent = "请打开VPN后重试";
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    }
+
+    function closePreview() {
+      checkId += 1;
+      modal.hidden = true;
+      body.classList.remove("preview-open");
+      if (lastFocus) {
+        lastFocus.focus();
+      }
+    }
+
+    hotspot.addEventListener("click", openPreview);
+    closeButton.addEventListener("click", closePreview);
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closePreview();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !modal.hidden) {
+        closePreview();
+      }
+    });
+
+    const observer = new IntersectionObserver(([entry]) => {
+      page.classList.toggle("is-readable", entry.isIntersecting);
+    }, { threshold: 0.28 });
+
+    observer.observe(page);
+  </script>
 </body>
 </html>
