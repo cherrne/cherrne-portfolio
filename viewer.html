@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Cherrne 的完整设计作品集">
   <title>Cherrne — Portfolio Viewer</title>
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body class="viewer-page">
   <header>
@@ -54,36 +54,18 @@
     let lastFocus = null;
     let checkId = 0;
 
-    async function openPreview() {
+    function openPreview() {
       lastFocus = document.activeElement;
       modal.hidden = false;
       body.classList.add("preview-open");
       closeButton.focus();
       message.textContent = "请打开VPN后重试";
-      frame.hidden = true;
-      const currentCheck = ++checkId;
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 4500);
-
-      try {
-        await fetch(frame.dataset.src, {
-          method: "HEAD",
-          mode: "no-cors",
-          cache: "no-store",
-          signal: controller.signal
-        });
-        if (currentCheck !== checkId) return;
-        if (frame.src === "about:blank") {
-          frame.src = frame.dataset.src;
-        }
-        message.textContent = "";
-        frame.hidden = false;
-      } catch (error) {
-        if (currentCheck !== checkId) return;
-        message.textContent = "请打开VPN后重试";
-      } finally {
-        window.clearTimeout(timeout);
+      message.hidden = true;
+      frame.hidden = false;
+      if (frame.src !== frame.dataset.src) {
+        frame.src = frame.dataset.src;
       }
+      checkVpn();
     }
 
     function closePreview() {
@@ -92,6 +74,30 @@
       body.classList.remove("preview-open");
       if (lastFocus) {
         lastFocus.focus();
+      }
+    }
+
+    async function checkVpn() {
+      const currentCheck = ++checkId;
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 3500);
+
+      try {
+        await fetch(frame.dataset.src, {
+          method: "HEAD",
+          mode: "no-cors",
+          cache: "no-store",
+          signal: controller.signal
+        });
+        if (currentCheck === checkId) {
+          message.hidden = true;
+        }
+      } catch (error) {
+        if (currentCheck === checkId) {
+          message.hidden = false;
+        }
+      } finally {
+        window.clearTimeout(timeout);
       }
     }
 
