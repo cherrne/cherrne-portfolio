@@ -36,7 +36,7 @@
     <button class="preview-close" type="button" aria-label="关闭预览"></button>
     <div class="preview-frame-wrap">
       <p class="preview-message" role="status" aria-live="polite"></p>
-      <iframe title="Today's Draw 网站预览" src="about:blank" data-src="https://today-yidesui.stony-skink-3552.chatgpt.site" loading="lazy"></iframe>
+      <iframe title="Today's Draw 网站预览" src="about:blank" data-src="https://today-yidesui.stony-skink-3552.chatgpt.site" loading="lazy" scrolling="yes"></iframe>
     </div>
   </div>
   <footer>
@@ -59,7 +59,7 @@
       modal.hidden = false;
       body.classList.add("preview-open");
       closeButton.focus();
-      message.textContent = "";
+      message.textContent = "请打开VPN后重试";
       frame.hidden = true;
       const currentCheck = ++checkId;
       const controller = new AbortController();
@@ -76,6 +76,7 @@
         if (frame.src === "about:blank") {
           frame.src = frame.dataset.src;
         }
+        message.textContent = "";
         frame.hidden = false;
       } catch (error) {
         if (currentCheck !== checkId) return;

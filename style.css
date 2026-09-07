@@ -205,6 +205,8 @@ footer a { color: inherit; text-underline-offset: 4px; }
   height: 100%;
   border: 0;
   background: #fff;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .site-preview iframe[hidden] {
